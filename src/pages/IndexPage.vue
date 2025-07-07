@@ -28,7 +28,7 @@ const fetchTotalContents = async () => {
   try {
     const token = localStorage.getItem("Authorization");
     const res = await axios.get(
-      `http://localhost:3333/api/admin/total-content`,
+      `${import.meta.env.VITE_BASE_URL}/api/admin/total-content`,
       {
         headers: { Authorization: token },
       }
@@ -42,7 +42,7 @@ const fetchTotalContents = async () => {
 const fetchTotalUsers = async () => {
   try {
     const token = localStorage.getItem("Authorization");
-    const res = await axios.get(`http://localhost:3333/api/admin/total-users`, {
+    const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/admin/total-users`, {
       headers: { Authorization: token },
     });
     totalUsers.value = res.data.totalUsers;
@@ -55,7 +55,7 @@ const fetchTotalCategories = async () => {
   try {
     const token = localStorage.getItem("Authorization");
     const res = await axios.get(
-      `http://localhost:3333/api/admin/total-categories`,
+      `${import.meta.env.VITE_BASE_URL}/api/admin/total-categories`,
       {
         headers: { Authorization: token },
       }

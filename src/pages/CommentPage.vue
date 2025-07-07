@@ -1,45 +1,53 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import axios from 'axios';
-import type { QTableProps } from 'quasar';
+import { onMounted, ref } from "vue";
+import axios from "axios";
+import type { QTableProps } from "quasar";
 
 const comments = ref([]);
 
-const columns: QTableProps['columns'] = [
-  { name: 'comment', label: 'Comment', align: 'left', field: 'comment' },
-  { name: 'status', label: 'Status', align: 'left', field: 'status' },
-  { name: 'content_id', label: 'Content ID', align: 'left', field: 'content_id' },
-  { name: 'user_id', label: 'User ID', align: 'left', field: 'user_id' },
+const columns: QTableProps["columns"] = [
+  { name: "comment", label: "Comment", align: "left", field: "comment" },
+  { name: "status", label: "Status", align: "left", field: "status" },
   {
-    name: 'actions',
-    label: 'Actions',
-    align: 'left',
-    field: 'id',
+    name: "content_id",
+    label: "Content ID",
+    align: "left",
+    field: "content_id",
+  },
+  { name: "user_id", label: "User ID", align: "left", field: "user_id" },
+  {
+    name: "actions",
+    label: "Actions",
+    align: "left",
+    field: "id",
   },
 ];
 
 const fetchComments = async () => {
   try {
-    const token = localStorage.getItem('Authorization');
-    const res = await axios.get(`http://localhost:3333/api/admin/comments`, {
-      headers: { Authorization: token },
-    });
+    const token = localStorage.getItem("Authorization");
+    const res = await axios.get(
+      `${import.meta.env.VITE_BASE_URL}/api/admin/comments`,
+      {
+        headers: { Authorization: token },
+      }
+    );
     comments.value = res.data.comments;
   } catch (err) {
-    if (err instanceof Error) console.error('Error:', err.message);
+    if (err instanceof Error) console.error("Error:", err.message);
   }
 };
 
 const approveComment = async (id: number) => {
   try {
-    const token = localStorage.getItem('Authorization');
+    const token = localStorage.getItem("Authorization");
     await axios.patch(
-      `http://localhost:3333/api/admin/comment/approve/${id}`,
+      `${import.meta.env.VITE_BASE_URL}/api/admin/comment/approve/${id}`,
       {},
-      { headers: { Authorization: token } },
+      { headers: { Authorization: token } }
     );
   } catch (err) {
-    if (err instanceof Error) console.error('Error:', err.message);
+    if (err instanceof Error) console.error("Error:", err.message);
   } finally {
     void fetchComments();
   }
@@ -47,14 +55,14 @@ const approveComment = async (id: number) => {
 
 const rejectComment = async (id: number) => {
   try {
-    const token = localStorage.getItem('Authorization');
+    const token = localStorage.getItem("Authorization");
     await axios.patch(
-      `http://localhost:3333/api/admin/comment/reject/${id}`,
+      `${import.meta.env.VITE_BASE_URL}/api/admin/comment/reject/${id}`,
       {},
-      { headers: { Authorization: token } },
+      { headers: { Authorization: token } }
     );
   } catch (err) {
-    if (err instanceof Error) console.error('Error:', err.message);
+    if (err instanceof Error) console.error("Error:", err.message);
   } finally {
     void fetchComments();
   }
@@ -62,12 +70,15 @@ const rejectComment = async (id: number) => {
 
 const deleteComment = async (id: number) => {
   try {
-    const token = localStorage.getItem('Authorization');
-    await axios.delete(`http://localhost:3333/api/admin/comment/delete/${id}`, {
-      headers: { Authorization: token },
-    });
+    const token = localStorage.getItem("Authorization");
+    await axios.delete(
+      `${import.meta.env.VITE_BASE_URL}/api/admin/comment/delete/${id}`,
+      {
+        headers: { Authorization: token },
+      }
+    );
   } catch (err) {
-    if (err instanceof Error) console.error('Error:', err.message);
+    if (err instanceof Error) console.error("Error:", err.message);
   } finally {
     void fetchComments();
   }
@@ -91,7 +102,10 @@ onMounted(fetchComments);
         <q-td :props="props">
           <div class="q-gutter-sm">
             <q-btn
-              v-if="props.row.status === 'PENDING' || props.row.status === 'REJECTED'"
+              v-if="
+                props.row.status === 'PENDING' ||
+                props.row.status === 'REJECTED'
+              "
               color="positive"
               label="Approve"
               dense

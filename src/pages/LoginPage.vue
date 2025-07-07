@@ -9,7 +9,7 @@ const router = useRouter();
 
 const submitForm = async () => {
   try {
-    const response = await axios.post(`http://localhost:3333/api/admin/login`, {
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/admin/login`, {
       email: email.value,
       password: password.value,
     });

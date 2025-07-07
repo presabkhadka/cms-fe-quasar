@@ -7,7 +7,7 @@ const contents = ref([]);
 const fetchContents = async () => {
   try {
     const token = localStorage.getItem('Authorization');
-    const response = await axios.get(`http://localhost:3333/api/admin/contents`, {
+    const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/admin/contents`, {
       headers: {
         Authorization: token,
       },
@@ -26,7 +26,7 @@ const publishContent = async (id: number) => {
   try {
     const token = localStorage.getItem('Authorization');
     await axios.patch(
-      `http://localhost:3333/api/admin/content/publish/${id}`,
+      `${import.meta.env.VITE_BASE_URL}/api/admin/content/publish/${id}`,
       {},
       {
         headers: { Authorization: token },
@@ -43,7 +43,7 @@ const draftContent = async (id: number) => {
   try {
     const token = localStorage.getItem('Authorization');
     await axios.patch(
-      `http://localhost:3333/api/admin/content/draft/${id}`,
+      `${import.meta.env.VITE_BASE_URL}/api/admin/content/draft/${id}`,
       {},
       {
         headers: { Authorization: token },
@@ -59,7 +59,7 @@ const draftContent = async (id: number) => {
 const deleteContent = async (id: number) => {
   try {
     const token = localStorage.getItem('Authorization');
-    await axios.delete(`http://localhost:3333/api/admin/content/delete/${id}`, {
+    await axios.delete(`${import.meta.env.VITE_BASE_URL}/api/admin/content/delete/${id}`, {
       headers: { Authorization: token },
     });
   } catch (error) {

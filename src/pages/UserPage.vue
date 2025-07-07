@@ -18,7 +18,7 @@ const fetchUsers = async () => {
   isLoading.value = true;
   try {
     const token = localStorage.getItem('Authorization');
-    const res = await axios.get(`http://localhost:3333/api/admin/users`, {
+    const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/admin/users`, {
       headers: { Authorization: token },
     });
     users.value = res.data.users;
@@ -33,7 +33,7 @@ const deleteUser = async (id: number) => {
   deletingId.value = id;
   try {
     const token = localStorage.getItem('Authorization');
-    await axios.delete(`http://localhost:3333/api/delete-user/${id}`, {
+    await axios.delete(`${import.meta.env.VITE_BASE_URL}/api/delete-user/${id}`, {
       headers: { Authorization: token },
     });
     await fetchUsers();
