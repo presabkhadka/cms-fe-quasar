@@ -42,9 +42,12 @@ const fetchTotalContents = async () => {
 const fetchTotalUsers = async () => {
   try {
     const token = localStorage.getItem("Authorization");
-    const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/admin/total-users`, {
-      headers: { Authorization: token },
-    });
+    const res = await axios.get(
+      `${import.meta.env.VITE_BASE_URL}/api/admin/total-users`,
+      {
+        headers: { Authorization: token },
+      }
+    );
     totalUsers.value = res.data.totalUsers;
   } catch (err) {
     console.error("Fetch users error:", err);
@@ -137,12 +140,7 @@ onUnmounted(() => {
     </div>
 
     <div class="q-mt-xl">
-      <q-card
-        flat
-        bordered
-        class="q-pa-md"
-        style="max-width: 600px; margin: auto"
-      >
+      <q-card flat bordered class="q-pa-md">
         <q-card-section class="text-center">
           <div class="text-h6 q-mb-md">Users vs Contents</div>
           <div style="height: 300px">
