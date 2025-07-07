@@ -2,7 +2,14 @@
   <q-layout view="hHh lpR fFf">
     <q-header elevated>
       <q-toolbar>
-        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
+        <q-btn
+          flat
+          dense
+          round
+          icon="menu"
+          aria-label="Menu"
+          @click="toggleLeftDrawer"
+        />
 
         <q-toolbar-title>
           <div class="absolute-center">Content Management System</div>
@@ -12,7 +19,16 @@
 
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
       <q-list>
-        <EssentialLink v-for="link in linksList" :key="link.title" v-bind="link" />
+        <router-link
+          v-for="link in linksList"
+          :key="link.title"
+          :to="`/${link.link}`"
+          class="q-item q-item-type row no-wrap q-pa-sm"
+          active-class="text-primary bg-grey-2"
+          exact
+        >
+          {{ link.title }}
+        </router-link>
       </q-list>
     </q-drawer>
 
@@ -23,29 +39,29 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import EssentialLink, { type EssentialLinkProps } from 'components/EssentialLink.vue';
+import { ref } from "vue";
+import { type EssentialLinkProps } from "components/EssentialLink.vue";
 
 const linksList: EssentialLinkProps[] = [
   {
-    title: 'Home',
-    icon: 'home',
-    link: 'home',
+    title: "Home",
+    icon: "home",
+    link: "home",
   },
   {
-    title: 'Contents',
-    icon: 'article',
-    link: 'content',
+    title: "Contents",
+    icon: "article",
+    link: "content",
   },
   {
-    title: 'Comments',
-    icon: 'chat',
-    link: 'comments',
+    title: "Comments",
+    icon: "chat",
+    link: "comments",
   },
   {
-    title: 'Users',
-    icon: 'group',
-    link: 'users',
+    title: "Users",
+    icon: "group",
+    link: "users",
   },
 ];
 
