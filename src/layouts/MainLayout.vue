@@ -30,6 +30,7 @@
           {{ link.title }}
         </router-link>
       </q-list>
+      <q-btn :icon="'exit_to_app'" @click="logOut" :to="'/'">Logout</q-btn>
     </q-drawer>
 
     <q-page-container>
@@ -41,6 +42,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { type EssentialLinkProps } from "components/EssentialLink.vue";
+
 
 const linksList: EssentialLinkProps[] = [
   {
@@ -70,4 +72,8 @@ const leftDrawerOpen = ref(false);
 function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value;
 }
+
+const logOut =  () => {
+  localStorage.removeItem("Authorization");
+};
 </script>
