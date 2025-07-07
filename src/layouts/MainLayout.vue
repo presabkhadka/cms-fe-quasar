@@ -30,7 +30,7 @@
           {{ link.title }}
         </router-link>
       </q-list>
-      <q-btn :icon="'exit_to_app'" @click="logOut" :to="'/'">Logout</q-btn>
+      <q-btn :icon="'exit_to_app'" @click="logOut" :to="'/'" :color="'red'" :ripple="true">Logout</q-btn>
     </q-drawer>
 
     <q-page-container>

@@ -1,11 +1,11 @@
-import { defineRouter } from '#q-app/wrappers';
+import { defineRouter } from "#q-app/wrappers";
 import {
   createMemoryHistory,
   createRouter,
   createWebHashHistory,
   createWebHistory,
-} from 'vue-router';
-import routes from './routes';
+} from "vue-router";
+import routes from "./routes";
 
 /*
  * If not building with SSR mode, you can
@@ -19,16 +19,31 @@ import routes from './routes';
 export default defineRouter(function (/* { store, ssrContext } */) {
   const createHistory = process.env.SERVER
     ? createMemoryHistory
-    : (process.env.VUE_ROUTER_MODE === 'history' ? createWebHistory : createWebHashHistory);
+    : process.env.VUE_ROUTER_MODE === "history"
+      ? createWebHistory
+      : createWebHashHistory;
 
   const Router = createRouter({
     scrollBehavior: () => ({ left: 0, top: 0 }),
     routes,
 
-    // Leave this as is and make changes in quasar.conf.js instead!
-    // quasar.conf.js -> build -> vueRouterMode
-    // quasar.conf.js -> build -> publicPath
     history: createHistory(process.env.VUE_ROUTER_BASE),
+  });
+
+  Router.beforeEach((to, from, next) => {
+    const token = localStorage.getItem("Authorization");
+    const isAuthentitcated = !!token;
+
+    if (
+      to.matched.some((record) => record.meta.requiresAuth) &&
+      !isAuthentitcated
+    ) {
+      next({ path: "" });
+    } else if (to.path === "" && isAuthentitcated) {
+      next({ path: "/home" });
+    } else {
+      next();
+    }
   });
 
   return Router;
