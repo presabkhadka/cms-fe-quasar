@@ -48,7 +48,7 @@ onMounted(fetchUsers);
 </script>
 
 <template>
-  <div class="q-pa-md">
+  <div class="q-pa-md ">
     <q-table
       title="Users"
       :rows="users"
@@ -62,15 +62,18 @@ onMounted(fetchUsers);
     >
       <template #body-cell-actions="props">
         <q-td :props="props">
-          <q-btn
+          <div class="tw-p-4">
+            <q-btn
             v-if="deletingId !== props.row.id"
             label="Delete"
             color="negative"
             dense
-            unelevated
+            unelevated 
             @click="deleteUser(props.row.id)"
+            padding="xs lg"
           />
           <q-btn v-else label="Deleting..." color="negative" dense unelevated :disable="true" />
+          </div>
         </q-td>
       </template>
     </q-table>

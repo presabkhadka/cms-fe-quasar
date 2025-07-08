@@ -100,7 +100,7 @@ onMounted(fetchComments);
     >
       <template #body-cell-actions="props">
         <q-td :props="props">
-          <div class="q-gutter-sm">
+          <div class="q-gutter-sm tw-p-4">
             <q-btn
               v-if="
                 props.row.status === 'PENDING' ||
@@ -111,22 +111,25 @@ onMounted(fetchComments);
               dense
               unelevated
               @click="approveComment(props.row.id)"
-            />
-            <q-btn
+              padding="xs lg"
+              />
+              <q-btn
               v-else
               color="warning"
               label="Reject"
               dense
               unelevated
               @click="rejectComment(props.row.id)"
-            />
-            <q-btn
+              padding="xs lg"
+              />
+              <q-btn
               color="negative"
               label="Delete"
               dense
               unelevated
               @click="deleteComment(props.row.id)"
-            />
+              padding="xs lg"
+              />
           </div>
         </q-td>
       </template>

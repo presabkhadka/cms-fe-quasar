@@ -1,32 +1,44 @@
 <script setup lang="ts">
-import axios from 'axios';
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import axios from "axios";
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { useQuasar } from "quasar";
 
-const email = ref('');
-const password = ref('');
+const email = ref("");
+const password = ref("");
 const router = useRouter();
+const $q = useQuasar();
 
 const submitForm = async () => {
   try {
-    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/admin/login`, {
-      email: email.value,
-      password: password.value,
-    });
+    const response = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/api/admin/login`,
+      {
+        email: email.value,
+        password: password.value,
+      }
+    );
 
     const token = response.data.token;
-    localStorage.setItem('Authorization', `Bearer ${token}`);
-    await router.push('/home');
+    localStorage.setItem("Authorization", `Bearer ${token}`);
+    await router.push("/home");
   } catch (error) {
     if (error instanceof Error) {
       console.log(error.message);
     }
+  } finally {
+    $q.notify({
+      message: "Logged in",
+    });
   }
 };
 </script>
 <template>
   <div class="fixed-center">
-    <q-card class="q-pa-lg shadow-2" style="min-width: 300px; max-width: 400px; width: 100%">
+    <q-card
+      class="q-pa-lg shadow-2"
+      style="min-width: 300px; max-width: 400px; width: 100%"
+    >
       <q-card-section>
         <div class="text-h6 text-center q-mb-md">Login</div>
         <q-form @submit.prevent="submitForm">
@@ -50,7 +62,13 @@ const submitForm = async () => {
             class="q-mb-md"
           />
 
-          <q-btn label="Login" color="primary" class="full-width" unelevated type="submit" />
+          <q-btn
+            label="Login"
+            color="primary"
+            class="full-width"
+            unelevated
+            type="submit"
+          />
         </q-form>
       </q-card-section>
     </q-card>

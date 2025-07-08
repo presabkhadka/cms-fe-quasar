@@ -1,39 +1,42 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import axios from 'axios';
+import { onMounted, ref } from "vue";
+import axios from "axios";
 
 const contents = ref([]);
 
 const fetchContents = async () => {
   try {
-    const token = localStorage.getItem('Authorization');
-    const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/admin/contents`, {
-      headers: {
-        Authorization: token,
-      },
-    });
+    const token = localStorage.getItem("Authorization");
+    const response = await axios.get(
+      `${import.meta.env.VITE_BASE_URL}/api/admin/contents`,
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    );
     console.log(response.data);
 
     contents.value = response.data.contents;
 
     console.log(contents.value);
   } catch (error) {
-    console.error('Fetch error:', error);
+    console.error("Fetch error:", error);
   }
 };
 
 const publishContent = async (id: number) => {
   try {
-    const token = localStorage.getItem('Authorization');
+    const token = localStorage.getItem("Authorization");
     await axios.patch(
       `${import.meta.env.VITE_BASE_URL}/api/admin/content/publish/${id}`,
       {},
       {
         headers: { Authorization: token },
-      },
+      }
     );
   } catch (error) {
-    console.error('Publish error:', error);
+    console.error("Publish error:", error);
   } finally {
     void fetchContents();
   }
@@ -41,16 +44,16 @@ const publishContent = async (id: number) => {
 
 const draftContent = async (id: number) => {
   try {
-    const token = localStorage.getItem('Authorization');
+    const token = localStorage.getItem("Authorization");
     await axios.patch(
       `${import.meta.env.VITE_BASE_URL}/api/admin/content/draft/${id}`,
       {},
       {
         headers: { Authorization: token },
-      },
+      }
     );
   } catch (error) {
-    console.error('Draft error:', error);
+    console.error("Draft error:", error);
   } finally {
     void fetchContents();
   }
@@ -58,12 +61,15 @@ const draftContent = async (id: number) => {
 
 const deleteContent = async (id: number) => {
   try {
-    const token = localStorage.getItem('Authorization');
-    await axios.delete(`${import.meta.env.VITE_BASE_URL}/api/admin/content/delete/${id}`, {
-      headers: { Authorization: token },
-    });
+    const token = localStorage.getItem("Authorization");
+    await axios.delete(
+      `${import.meta.env.VITE_BASE_URL}/api/admin/content/delete/${id}`,
+      {
+        headers: { Authorization: token },
+      }
+    );
   } catch (error) {
-    console.error('Delete error:', error);
+    console.error("Delete error:", error);
   } finally {
     void fetchContents();
   }
@@ -91,23 +97,31 @@ onMounted(() => {
     >
       <template #body-cell-actions="props">
         <q-td :props="props">
-          <div class="q-gutter-sm">
+          <div class="q-gutter-sm tw-p-4">
             <q-btn
               v-if="props.row.status !== 'PUBLISHED'"
               label="Publish"
               color="green"
               dense
               @click="publishContent(props.row.id)"
-            />
-            <q-btn
+              padding="xs lg"
+              />
+              <q-btn
               v-else
               label="Draft"
-              color="yellow"
-              text-color="black"
+              color="warning"
+              text-color="white"
               dense
               @click="draftContent(props.row.id)"
+              padding="xs lg"
+              />
+              <q-btn
+              label="Delete"
+              color="red"
+              dense
+              @click="deleteContent(props.row.id)"
+              padding="xs lg"
             />
-            <q-btn label="Delete" color="red" dense @click="deleteContent(props.row.id)" />
           </div>
         </q-td>
       </template>
